@@ -3,7 +3,7 @@ from .models import Category,Test,Question,Inducation,Option
 
 # Register your models here.
 
-admin.site.site_header = "小小志老师的测评乐园"
+admin.site.site_header = "小小志老师的精神病院收容所"
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('title','label','order')
