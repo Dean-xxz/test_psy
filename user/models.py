@@ -15,7 +15,7 @@ class Wechat_user(BaseModel):
         ordering = ["-create_time",]
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="wechatuser")
-    openid = models.CharField(max_length=50, blank=True, null=true, verbose_name=('OPENID'))
+    openid = models.CharField(max_length=50, blank=True, null=True, verbose_name=('OPENID'))
     unionid = models.CharField(max_length=50, verbose_name=('UNIONID'), unique=True,null = True,blank = True)
     nickname = models.CharField(max_length=50, verbose_name=('昵称'))
     sex = models.CharField(max_length=1, blank=True, null=True, verbose_name=('性别'))
