@@ -1,9 +1,12 @@
 import json
 from django.db import models
+from django.conf import settings
 from utils.basemodel.base import BaseModel
 # from ckeditor.fields import RichTextField
 # from ckeditor_uploader.fields import RichTextUploadingField
 from django.core import serializers
+from django.contrib.auth.models import User
+from user.models import Wechat_user
 
 # Create your models here.
 
@@ -78,6 +81,7 @@ class Inducation(BaseModel):
             data['id'] = struct[0]['pk']
         return data
 
+
 class Question(BaseModel):
     class Meta:
         verbose_name="题目"
@@ -99,6 +103,7 @@ class Question(BaseModel):
         if 'pk' in struct[0]:
             data['id'] = struct[0]['pk']
         return data
+
 
 class Option(BaseModel):
     class Meta:
@@ -122,3 +127,24 @@ class Option(BaseModel):
             data['id'] = struct[0]['pk']
         return data
 
+
+class Result(BaseModel):
+    class Meta:
+        verbose_name="测试记录表"
+        verbose_name_plural="测试记录表"
+        ordering=['question',]
+
+    question = models.ForeignKey("Question", verbose_name="题目题号", related_name="result_question")
+    option = models.ForeignKey("Option", verbose_name="选项", related_name="result_option")
+    user = models.ForeignKey("user.Wechat_user", verbose_name="测试人", related_name="result_user")
+
+    def __str__(self):
+        return self.question,self.option,self.user
+
+    def get_json(self):
+        serials = serializers.serialize("json", [self])
+        struct = json.loads(serials)
+        data = struct[0]['fields']
+        if 'pk' in struct[0]:
+            data['id'] = struct[0]['pk']
+        return data
