@@ -41,13 +41,13 @@ class Test(BaseModel):
         ordering=['order',]
 
     category = models.ForeignKey("Category",verbose_name="所属测试类别",related_name="test_category")
-    name = models.CharField(max_length=128,verbose_name="测试名称")
+    title = models.CharField(max_length=128,verbose_name="测试名称")
     image = models.ImageField(upload_to="media/question/test/", verbose_name="测试介绍图片", null=True, blank=True)
     descp = models.TextField(verbose_name="测试描述",null=True,blank=True)
     order = models.PositiveSmallIntegerField(verbose_name="顺序", default=1,help_text="该测试在测试列表中的顺序")
 
     def __str__(self):
-        return self.name
+        return self.title
 
     def get_json(self):
         serials = serializers.serialize("json", [self])
