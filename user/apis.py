@@ -10,6 +10,7 @@ import datetime
 from django.conf import settings
 from django.core import serializers
 from django.db.models import Q
+from urllib.request import urlopen
 
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
@@ -116,3 +117,27 @@ class UserQueryAPI(AbstractAPI):
 
 
 query_user_api = UserQueryAPI().wrap_func()
+
+
+class OpenidQueryAPI(AbstractAPI):
+    def config_args(self):
+        self.args = {
+            'code':'r',
+        }
+
+    def access_db(self, kwarg):
+        code = kwarg['code']
+        Appid = 'wx2ef73a7f200e1409'
+        AppSecret = 'acb9a3a794fa80effbd3e370f65f555f'
+        url = "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code"%(Appid,AppSecret,code)
+        res = urlopen(url).read().decode("utf8")
+        message = json.loads(res)
+        data = message
+
+        return data
+
+    def format_data(self, data):
+        return ok_json(data = data)
+
+
+query_openid_api = OpenidQueryAPI().wrap_func()
