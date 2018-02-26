@@ -27,7 +27,7 @@ class UserCreateAPI(AbstractAPI):
     def config_args(self):
         self.args = {
             'openid':'r',
-            'unionid':'r',
+            # 'unionid':'r',
             'nickname':'r',
             'sex':'r',
             'province':('o',None),
@@ -42,7 +42,7 @@ class UserCreateAPI(AbstractAPI):
         email = 'upupgogogo'+'163.com'
         password = '123456'
         openid = kwarg['openid']
-        unionid = kwarg['unionid']
+        # unionid = kwarg['unionid']
         nickname = kwarg['nickname']
         sex = kwarg['sex']
         province = kwarg['province']
@@ -67,7 +67,7 @@ class UserCreateAPI(AbstractAPI):
                 nickname = nickname+'01'
                 user = User.objects.create(username = nickname, email = email, password = password)
                 user_id = user.id
-                wechat_user = Wechat_user(user_id = user_id,openid = openid,unionid = unionid,nickname = nickname,province = province,
+                wechat_user = Wechat_user(user_id = user_id,openid = openid,nickname = nickname,province = province,
                                           country = country,headimgurl = headimgurl,language = language,privilege = privilege)
                 wechat_user.save()
                 if wechat_user:

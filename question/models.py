@@ -66,6 +66,7 @@ class Inducation(BaseModel):
 
     test = models.ForeignKey("Test", verbose_name="所属测试", related_name="inducation_test")
     title = models.CharField(max_length=128,verbose_name="类型名称")
+    label = models.CharField(max_length=128,verbose_name="类型标签",null=True,blank=True)
     image = models.ImageField(upload_to="media/question/inducation/", verbose_name="类型卡片", null=True, blank=True)
     descp = models.TextField(verbose_name="类型描述", null=True, blank=True)
     order = models.PositiveSmallIntegerField(verbose_name="顺序", default=1, help_text="该类型在分类列表中的顺序")

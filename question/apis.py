@@ -77,3 +77,55 @@ class QuestionQueryAPI(AbstractAPI):
 
 
 query_question_api = QuestionQueryAPI().wrap_func()
+
+
+# 类型列表
+class InducationListAPI(AbstractAPI):
+    def config_args(self):
+        self.args = {
+
+        }
+
+    def access_db(self, kwarg):
+
+
+        data = Inducation.objects.filter(test_id = 1)
+        data = [o.get_json() for o in data]
+
+
+        return data
+
+    def format_data(self, data):
+        if data is not None:
+            return ok_json(data = data)
+
+
+
+list_inducation_api = InducationListAPI().wrap_func()
+
+
+# 单一分类查询
+
+class InducationQueryAPI(AbstractAPI):
+    def config_args(self):
+        self.args = {
+            "inducation_id":'r',
+        }
+
+    def access_db(self, kwarg):
+        inducation_id = kwarg['inducation_id']
+
+        try:
+            data = Inducation.objects.get(pk = inducation_id)
+            data = data.get_json()
+            return data
+        except Inducation.DoesNotExist:
+            return None
+
+    def format_data(self, data):
+        if data is not None:
+            return ok_json(data = data)
+        return fail_json('inducation is not exit')
+
+
+query_inducation_api = InducationQueryAPI().wrap_func()
