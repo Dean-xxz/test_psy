@@ -88,6 +88,7 @@ class Question(BaseModel):
         verbose_name_plural="题目"
         ordering=['number',]
 
+    test = models.ForeignKey("Test", verbose_name="所属测试", related_name="question_test",null=True,blank=True)
     inducation = models.ForeignKey("Inducation", verbose_name="所属结果分类", related_name="question_inducation")
     number = models.PositiveSmallIntegerField(verbose_name="题号", default=1, help_text="题目的题号")
     stem = models.CharField(max_length=512,verbose_name="题干")

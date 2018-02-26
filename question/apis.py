@@ -64,7 +64,9 @@ class QuestionQueryAPI(AbstractAPI):
         data = [o.get_json() for o in test]
         option = Option.objects.filter(test_id = test_id)
         option = [o.get_json() for o in option]
-        data['option'] = option
+        for i in data:
+            i['option'] = option
+        # data['option'] = option
         data = dict_pagination_response(data, self.request, int(kwarg['page']), int(kwarg['page_size']))
 
         return data
