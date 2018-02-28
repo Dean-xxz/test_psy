@@ -77,10 +77,9 @@ class UserCreateAPI(AbstractAPI):
             except User.DoesNotExist:
                 user = User.objects.create(username=nickname, email=email, password=password)
                 user_id = user.id
-                wechat_user = Wechat_user(user_id=user_id, openid=openid, unionid=unionid, nickname=nickname,
-                                          province=province,
-                                          country=country, headimgurl=headimgurl, language=language,
-                                          privilege=privilege)
+                wechat_user = Wechat_user(user_id=user_id, openid=openid, nickname=nickname,
+                                          province=province,country=country, headimgurl=headimgurl,
+                                          language=language,privilege=privilege)
                 wechat_user.save()
                 if wechat_user:
                     data = wechat_user.get_json()
