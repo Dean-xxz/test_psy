@@ -59,7 +59,7 @@ class UserCreateAPI(AbstractAPI):
                                                                              province = province,city = city,
                                                                              country = country,headimgurl = headimgurl,
                                                                              language = language,privilege = privilege)
-            data = wechat_user.get_json()
+            data = user.get_json()
             return data
         except Wechat_user.DoesNotExist:
             try:
