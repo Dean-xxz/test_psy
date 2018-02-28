@@ -10,7 +10,7 @@ def get_inducation_avg(user_id,inducation_id):
         question_id = j['id']
         try:
             result = Result.objects.get(question_id = question_id,user_id = user_id)
-            value = result.option
+            value = result.score
             count = count + 1
             sum = sum + value
         except Result.DoesNotExist:
