@@ -138,11 +138,11 @@ class Result(BaseModel):
         ordering=['question',]
 
     question = models.ForeignKey("Question", verbose_name="题目题号", related_name="result_question")
-    option = models.ForeignKey("Option", verbose_name="选项", related_name="result_option")
+    score = models.IntegerField(verbose_name="分值",blank=True,null =True)
     user = models.ForeignKey("user.Wechat_user", verbose_name="测试人", related_name="result_user")
 
     def __str__(self):
-        return self.question,self.option,self.user
+        return self.question,self.score,self.user
 
     def get_json(self):
         serials = serializers.serialize("json", [self])

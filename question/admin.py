@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category,Test,Question,Inducation,Option
+from .models import Category,Test,Question,Inducation,Option,Result
 
 # Register your models here.
 
@@ -44,3 +44,10 @@ class OptionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Option,OptionAdmin)
+
+
+class ResultAdmin(admin.ModelAdmin):
+    list_display = ('question','user','score')
+
+
+admin.site.register(Result,ResultAdmin)

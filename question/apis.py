@@ -18,7 +18,8 @@ from utils.paginator import json_pagination_response, dict_pagination_response
 from utils.view_tools import ok_json, fail_json,get_args
 from utils.abstract_api import AbstractAPI
 
-from .models import Test,Inducation,Question,Option
+from .models import Test,Inducation,Question,Option,Result
+from .utils import get_inducation_avg
 
 # 测试信息展示接口
 
@@ -129,3 +130,60 @@ class InducationQueryAPI(AbstractAPI):
 
 
 query_inducation_api = InducationQueryAPI().wrap_func()
+
+
+# 用户测试结果创建接口
+class ResultCreateAPI(AbstractAPI):
+    def config_args(self):
+        self.args = {
+            "user_id":'r',
+            "data":'r',
+        }
+
+    def access_db(self, kwarg):
+        user_id = kwarg['user_id']
+        data = kwarg['data']
+
+        data = eval(data)
+        for key, value in data.items():
+            user_id = user_id
+            question_id = key
+            score = data[key]
+            result = Result(user_id = user_id,question_id = question_id,score = score)
+            result.save()
+
+        return 'save successful'
+
+    def format_data(self, data):
+        return ok_json(data = data)
+
+
+create_result_api = ResultCreateAPI().wrap_func()
+
+
+# 用户测试结果查询
+class ResultQueryAPI(AbstractAPI):
+    def config_args(self):
+        self.args = {
+            "user_id":'r',
+        }
+
+    def access_db(self, kwarg):
+        user_id = kwarg['user_id']
+
+        #查询分类列表
+        inducation_list = Inducation.objects.filter(test_id=1)
+        data = [o.get_json() for o in inducation_list]
+        #计算每个分类得分
+        for i in data:
+            inducation_id = i['id']
+            i['avg'] = get_inducation_avg(inducation_id = inducation_id,user_id = user_id)
+        #根据分值排序返回结果
+        data = data.sort(key=lambda k: (k.get('avg', 0)))
+
+        return data
+    def format_data(self, data):
+        return ok_json(data = data)
+
+
+query_result_api = ResultQueryAPI().wrap_func()
