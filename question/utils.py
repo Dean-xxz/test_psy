@@ -15,7 +15,7 @@ def get_inducation_avg(user_id,inducation_id):
             sum = sum + value
         except Result.DoesNotExist:
             pass
-    avg = round(sum/count, 2)
+    avg = round(sum/3, 2)
 
     return avg
 
