@@ -179,7 +179,7 @@ class ResultQueryAPI(AbstractAPI):
             inducation_id = i['id']
             i['avg'] = get_inducation_avg(inducation_id = inducation_id,user_id = user_id)
         #根据分值排序返回结果
-        data = data.sort(key=lambda k: (k.get('avg', 0)))
+        # data = data.sort(key=lambda k: (k.get('avg', 0)))
 
         return data
     def format_data(self, data):
