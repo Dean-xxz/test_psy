@@ -1,4 +1,4 @@
-from .models import Result
+from .models import Result,Question
 
 
 def get_inducation_avg(user_id,inducation_id):
