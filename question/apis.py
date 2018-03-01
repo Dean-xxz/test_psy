@@ -144,13 +144,18 @@ class ResultCreateAPI(AbstractAPI):
         user_id = kwarg['user_id']
         data = kwarg['data']
 
+
         data = eval(data)
         for key, value in data.items():
             user_id = user_id
             question_id = key
             score = data[key]
-            result = Result(user_id = user_id,question_id = question_id,score = score)
-            result.save()
+            try:
+                obj = Result.objects.get(user_id=user_id,question_id=question_id)
+                obj = Result.objects.filter(user_id=user_id,question_id=question_id).update(score=score)
+            except Result.DoesNotExist:
+                result = Result(user_id = user_id,question_id = question_id,score = score)
+                result.save()
 
         return 'save successful'
 
