@@ -5,4 +5,6 @@ urlpatterns = [
     url(r'^create/$', user.apis.create_user_api, name="user_create_api"),
     url(r'^query/$', user.apis.query_user_api, name="user_query_api"),
     url(r'^openid/query/$', user.apis.query_openid_api, name="openid_query_api"),
+    url(r'^friend/list/$', user.apis.list_firend_api, name="friend_list_api"),
+
 ]

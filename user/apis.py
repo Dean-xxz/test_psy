@@ -27,7 +27,7 @@ class UserCreateAPI(AbstractAPI):
     def config_args(self):
         self.args = {
             'openid':'r',
-            # 'unionid':'r',
+            'inviter':('o',None),
             'nickname':'r',
             'sex':'r',
             'province':('o',None),
@@ -42,7 +42,7 @@ class UserCreateAPI(AbstractAPI):
         email = 'upupgogogo'+'163.com'
         password = '123456'
         openid = kwarg['openid']
-        # unionid = kwarg['unionid']
+        inviter = kwarg['inviter']
         nickname = kwarg['nickname']
         sex = kwarg['sex']
         province = kwarg['province']
@@ -67,7 +67,7 @@ class UserCreateAPI(AbstractAPI):
                 nickname = nickname+'01'
                 user = User.objects.create(username = nickname, email = email, password = password)
                 user_id = user.id
-                wechat_user = Wechat_user(user_id = user_id,openid = openid,nickname = nickname,province = province,
+                wechat_user = Wechat_user(user_id = user_id,inviter = inviter,openid = openid,nickname = nickname,province = province,
                                           country = country,headimgurl = headimgurl,language = language,privilege = privilege)
                 wechat_user.save()
                 if wechat_user:
@@ -77,7 +77,7 @@ class UserCreateAPI(AbstractAPI):
             except User.DoesNotExist:
                 user = User.objects.create(username=nickname, email=email, password=password)
                 user_id = user.id
-                wechat_user = Wechat_user(user_id=user_id, openid=openid, nickname=nickname,
+                wechat_user = Wechat_user(user_id=user_id, inviter = inviter,openid=openid, nickname=nickname,
                                           province=province,country=country, headimgurl=headimgurl,
                                           language=language,privilege=privilege)
                 wechat_user.save()
@@ -140,3 +140,23 @@ class OpenidQueryAPI(AbstractAPI):
 
 
 query_openid_api = OpenidQueryAPI().wrap_func()
+
+
+class FriendListAPI(AbstractAPI):
+    def config_args(self):
+        self.args = {
+            'user_id':'r',
+        }
+
+    def access_db(self, kwarg):
+        user_id = kwarg['user_id']
+        list = Wechat_user.objects.filter(inviter_id=user_id)
+        data = [o.get_json() for o in list]
+
+        return data
+
+    def format_data(self, data):
+        return ok_json(data = data)
+
+
+list_firend_api = FriendListAPI().wrap_func()
