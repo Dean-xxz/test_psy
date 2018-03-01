@@ -141,8 +141,8 @@ class Result(BaseModel):
     score = models.IntegerField(verbose_name="分值",blank=True,null =True)
     user = models.ForeignKey("user.Wechat_user", verbose_name="测试人", related_name="result_user")
 
-    def __str__(self):
-        return self.question,self.score,self.user
+    # def __str__(self):
+    #     return self.question,self.score,self.user
 
     def get_json(self):
         serials = serializers.serialize("json", [self])
